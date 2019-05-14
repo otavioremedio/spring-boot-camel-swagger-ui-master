@@ -18,8 +18,8 @@ public class Router extends RouteBuilder {
         rest("/user").description("User rest service")
     	.consumes("application/json").produces("application/json")
         .get("/{id}").description("Find user by id").outType(List.class)
-            .param().name("id").type(path).description("The id of the user to get").dataType("integer").endParam()
-            .responseMessage().code(200).message("The user").endResponseMessage()
+            .param().name("id").type(path).description("The id of the user to get").dataType("int").endParam()
+            //.responseMessage().code(200).message("The user").endResponseMessage()
             .to("bean:funcionarioService?method=getUser(${header.id})");  
     }
 }
