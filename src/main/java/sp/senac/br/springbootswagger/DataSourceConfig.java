@@ -1,4 +1,4 @@
-package com.schulz.bennet.springbootswagger;
+package sp.senac.br.springbootswagger;
 
 import javax.sql.DataSource;
 

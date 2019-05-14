@@ -1,4 +1,4 @@
-package com.schulz.bennet.springbootswagger;
+package sp.senac.br.springbootswagger;
 
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
 import org.apache.camel.component.swagger.DefaultCamelSwaggerServlet;
