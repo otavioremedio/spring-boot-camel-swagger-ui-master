@@ -52,6 +52,8 @@ public class Router extends RouteBuilder {
 	    	public void process(Exchange exchange) throws Exception {
 	    		String usuario = exchange.getIn().getBody(String.class);
 	    		UsuarioDto contact = new ObjectMapper().readValue(usuario, UsuarioDto.class);
+	    		System.out.println(usuario);
+	    		System.out.println(contact.getSistemasPerfis());
 	    		exchange.getOut().setBody(contact);
 	    	}
 	    });    	

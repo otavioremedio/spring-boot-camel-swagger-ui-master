@@ -27,7 +27,7 @@ public class UsuarioDto implements Serializable {
 	
 	private PerfilEnum perfil;
 
-	private Integer codSistema;
+	private Integer codSistema = 448;
 
 	public Integer getChapa() {
 		return chapa;
