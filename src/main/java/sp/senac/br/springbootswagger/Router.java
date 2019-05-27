@@ -3,8 +3,11 @@ package sp.senac.br.springbootswagger;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class Router extends RouteBuilder {
@@ -24,16 +27,42 @@ public class Router extends RouteBuilder {
 //            .param().name("id").type(path).description("The id of the user to get").dataType("integer").endParam()
 //            //.responseMessage().code(200).message("The user").endResponseMessage()
 //            .to("bean:funcionarioService?method=getUser(${header.id})");
+//        log("${header.Authorization}").
+//    	process(new Processor() {
+//			@Override
+//			public void process(Exchange exchange) throws Exception {
+//				exchange.setProperty("token", (exchange.getIn().getHeader("Authorization")));
+//			}
+//		}).
         
+        rest("/admti").
+        	consumes("application/json").produces("application/json").
+        	get("/user").
+            to("direct:admti");
         
-        from("timer://admti?fixedRate=true&delay=5s&period=10s").
-        	setBody(constant("{\"username\":\"colex\",\"senha\":\"_@HRL&L3tF?Z7ccj4z&L5!nU2B!Rjs3_\"}")).        	
+        from("direct:admti").
+        	removeHeaders("CamelHttp*").
+        	setBody(constant("{\"username\":\"colex\",\"senha\":\"_@HRL&L3tF?Z7ccj4z&L5!nU2B!Rjs3_\"}")).       
         to("http4://10.2.0.146:8480/admti/login").
-        	process(new Processor() {
-				@Override
-				public void process(Exchange exchange) throws Exception {
-					System.out.println(exchange.getIn().getHeader("Authorization"));
-				}
-			});        	
+        	setHeader("Authorization", simple("${header.Authorization}")).
+        	setHeader(Exchange.HTTP_QUERY, simple("sistema=448&username=otavio.remedio")).
+        to("http4://10.2.0.146:8480/admti/api/usuario")
+	       .process(new Processor() {
+	    	@Override
+	    	public void process(Exchange exchange) throws Exception {
+	    		String usuario = exchange.getIn().getBody(String.class);
+	    		UsuarioDto contact = new ObjectMapper().readValue(usuario, UsuarioDto.class);
+	    		exchange.getOut().setBody(contact);
+	    	}
+	    });    	
     }
 }
+
+
+//process(new Processor() {
+//	@Override
+//	public void process(Exchange exchange) throws Exception {
+//		UsuarioDto usuario = exchange.getIn().getBody(UsuarioDto.class);
+//		System.out.println(usuario.getCodUnidade());
+//	}
+//});
