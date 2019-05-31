@@ -42,7 +42,7 @@ public class Router extends RouteBuilder {
         
         from("direct:admti").
         	removeHeaders("CamelHttp*").
-        	setBody(constant("{\"username\":\"colex\",\"senha\":\"_@HRL&L3tF?Z7ccj4z&L5!nU2B!Rjs3_\"}")).       
+        	setBody(constant("{\"username\":\"colex\",\"senha\":\"xxxxxxxxxxxx\"}")).       
         to("http4://10.2.0.146:8480/admti/login").
         	setHeader("Authorization", simple("${header.Authorization}")).
         	setHeader(Exchange.HTTP_QUERY, simple("sistema=448&username=otavio.remedio")).
