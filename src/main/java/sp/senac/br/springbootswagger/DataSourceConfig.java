@@ -16,9 +16,9 @@ public class DataSourceConfig {
      
     @Bean
     public DataSource getDataSource() {
-    	config.setJdbcUrl( "" );
-        config.setUsername( "" );
-        config.setPassword( "" );
+    	config.setJdbcUrl( "jdbc:oracle:thin:@//10.9.0.30:1532/hrhev" );
+        config.setUsername( "rhcolex" );
+        config.setPassword( "rhcolex" );
         config.addDataSourceProperty( "cachePrepStmts" , "true" );
         config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
         config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
